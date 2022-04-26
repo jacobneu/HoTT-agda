@@ -256,3 +256,6 @@ TSWLatexianTemp*
 
 ## Agda files
 *.agdai
+
+# Mac
+.DS_Store
