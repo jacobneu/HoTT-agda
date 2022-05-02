@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K --exact-split --safe #-}
+{-# OPTIONS --without-K --exact-split #-}
 
 Type = Set 
 
