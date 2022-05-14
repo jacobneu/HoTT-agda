@@ -1,7 +1,8 @@
 {-# OPTIONS --without-K #-}
 
 module example-daysOfWeek where 
-
+ 
+ 
 import 00-preamble 
 open 00-preamble public
 

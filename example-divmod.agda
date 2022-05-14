@@ -46,8 +46,6 @@ divmod n d = if n <₂ d
              then (0 , n) 
              else (incrementLeft (divmod (n - d) d))
 
-
-
-
 undivmod : ℕ → ℕ × ℕ → ℕ 
-undivmod d (q , r) = q * d + r 
+undivmod d (q , r) = q * d + r
+

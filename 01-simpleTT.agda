@@ -6,14 +6,15 @@ import 00-preamble
 open 00-preamble public
 
 
------------------------------------------------------
-
-data unit : Type lzero where   -- 𝟙-Formation
-  star : unit                  -- 𝟙-Introduction
+-- 𝟙-Formation & 𝟙-Introduction
+data unit : Type lzero where   
+  star : unit                 
   
 𝟙 = unit
 
------------------------------------------------------
+
+
+
 
 data bool : Type lzero where    -- 𝟚-Formation 
   on off : bool                 -- 𝟚-Introduction 
@@ -27,7 +28,7 @@ if_then_else : 𝟚 → A → A → A    -- 𝟚-Iteration
 if on then x else y = x         -- 𝟚-Computation
 if off then x else y = y        -- 𝟚-Computation 
 
--- open import Agda.Builtin.String
+
 
 -----------------------------------------------------
 
