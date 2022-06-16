@@ -12,22 +12,38 @@ data unit : Type lzero where
   
 𝟙 = unit
 
+--------------------------------------------
 
 
-
-
-data bool : Type lzero where    -- 𝟚-Formation 
-  on off : bool                 -- 𝟚-Introduction 
+-- 𝟚-Formation & 𝟚-Introduction
+data bool : Type lzero where
+  on off : bool
 
 𝟚 = bool
 
+_&&_ : 𝟚 → 𝟚 → 𝟚
+on && b2 = b2
+off && b2 = off
+
+_||_ : 𝟚 → 𝟚 → 𝟚
+on || b2 = on
+off || b2 = b2
+
+! : 𝟚 → 𝟚
+! on = off
+! off = on
 
 
 variable A : Type ℓ
-if_then_else : 𝟚 → A → A → A    -- 𝟚-Iteration
-if on then x else y = x         -- 𝟚-Computation
-if off then x else y = y        -- 𝟚-Computation 
 
+-- 𝟚-Iteration & 𝟚-Computation
+iter-𝟚 : A → A → (𝟚 → A)
+iter-𝟚 a₀ a₁ on = a₀
+iter-𝟚 a₀ a₁ off = a₁
+
+if_then_else : 𝟚 → A → A → A
+if on then x else y = x    
+if off then x else y = y
 
 
 -----------------------------------------------------
@@ -42,9 +58,9 @@ pick-one a = λ star → a
 
 -----------------------------------------------------
 
-iter-𝟚 : A → A → (𝟚 → A)        -- 𝟚-Iteration
-iter-𝟚 x y on = x               -- 𝟚-Computation
-iter-𝟚 x y off = y              -- 𝟚-Computation
+-- iter-𝟚 : A → A → (𝟚 → A)        -- 𝟚-Iteration
+-- iter-𝟚 x y on = x               -- 𝟚-Computation
+-- iter-𝟚 x y off = y              -- 𝟚-Computation
 
 iter-𝟙 : A → (𝟙 → A)            -- 𝟙-Iteration
 iter-𝟙 a star = a               -- 𝟙-Computation 
