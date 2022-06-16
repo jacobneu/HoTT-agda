@@ -34,17 +34,17 @@ off || b2 = b2
 ! off = on
 
 
+
 variable A : Type ℓ
 
 -- 𝟚-Iteration & 𝟚-Computation
-iter-𝟚 : A → A → (𝟚 → A)
+iter-𝟚 : A → A → 𝟚 → A
 iter-𝟚 a₀ a₁ on = a₀
 iter-𝟚 a₀ a₁ off = a₁
 
 if_then_else : 𝟚 → A → A → A
-if on then x else y = x    
-if off then x else y = y
-
+if on then a₀ else a₁ = a₀
+if off then a₀ else a₁ = a₁
 
 -----------------------------------------------------
 
