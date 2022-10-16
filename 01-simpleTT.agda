@@ -48,49 +48,11 @@ if off then a₀ else a₁ = a₁
 
 -----------------------------------------------------
 
+variable P : Type lzero 
 
-ad-veritatem : A → 𝟙
-ad-veritatem x = star
+ad-veritatem : P → 𝟙
+ad-veritatem = λ p → star
 
-pick-one : A → (𝟙 → A)
-pick-one a = λ star → a 
+id : P → P 
+id = λ p → p
 
-
------------------------------------------------------
-
--- iter-𝟚 : A → A → (𝟚 → A)        -- 𝟚-Iteration
--- iter-𝟚 x y on = x               -- 𝟚-Computation
--- iter-𝟚 x y off = y              -- 𝟚-Computation
-
-iter-𝟙 : A → (𝟙 → A)            -- 𝟙-Iteration
-iter-𝟙 a star = a               -- 𝟙-Computation 
-
------------------------------------------------------
-
-data empty : Type lzero where
-
-𝟘 = empty
-
-iter-𝟘 : 𝟘 → A 
-iter-𝟘 ()
-
-
-Claim = Type lzero
-variable P Q R : Claim
-
-modus-ponens : (P → Q) → P → Q 
-modus-ponens wP→Q wP = wP→Q wP
-
-trivial : P → P
-trivial = λ wP → wP
-
-_andthen_ : (P → Q) → (Q → R) → (P → R)
-w1 andthen w2 = λ hP → w2 (w1 hP)
-
-⊥ : Claim
-⊥ = 𝟘
-⊤ : Claim
-⊤ = 𝟙 
-
-ex-falso : ⊥ → P
-ex-falso = iter-𝟘 
