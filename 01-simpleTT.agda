@@ -56,3 +56,14 @@ ad-veritatem = λ p → star
 id : P → P 
 id = λ p → p
 
+-----------------------------------------------------
+
+iter-𝟙 : A → 𝟙 → A
+iter-𝟙 a = λ star → a
+
+data empty : Type lzero where
+
+𝟘 = empty
+
+iter-𝟘 : 𝟘 → A
+iter-𝟘 ()
