@@ -5,34 +5,30 @@ module example-divmod where
 import 01-simpleTT 
 open 01-simpleTT public
 
-{- Library -}
+
 open import Agda.Builtin.Nat renaming (Nat to ℕ)
-infix 4 _,_
-record _×_ (A B : Type ℓ) : Type ℓ where
-  constructor _,_
-  field
-    proj₁ : A
-    proj₂ : B
-open _×_ public
-{- /Library -}
+open import sandbox-03 public
+open _×_
 
 
-_<₂_ : ℕ → ℕ → 𝟚
-_ <₂ 0 = off 
-0 <₂ (suc n) = on
-(suc m) <₂ (suc n) = m <₂ n 
-
+infix 4 _/%_ _/%'_
 {-# TERMINATING #-}
--- d ≠ 0
-divmod : ℕ → ℕ → ℕ × ℕ 
-divmod n d = if n <₂ d 
-             then (0 , n) 
-             else (q + 1 , r)
-             where
-             (q,r) = divmod (n - d) d
-             q = proj₁ (q,r)
-             r = proj₂ (q,r)
+_/%_ : ℕ → ℕ → ℕ × ℕ
+n /% d = 
+  if n <₂ d
+  then 0 , n
+  else ((suc *** id) (n - d /% d))
 
-undivmod : ℕ → ℕ × ℕ → ℕ 
-undivmod d (q , r) = q * d + r
+_/%'_ : ℕ → ℕ → ℕ × ℕ
+n /%' d = divmod-fueled n n d
+  where
+    incFst : ℕ × ℕ → ℕ × ℕ
+    incFst (q , r) = (q + 1) , r 
+    divmod-fueled : ℕ → ℕ → ℕ → ℕ × ℕ
+    divmod-fueled zero n d = 0 , n -- won't happen for d≠0
+    divmod-fueled (suc f) n d = 
+      if n <₂ d 
+      then 0 , n 
+      else (incFst (divmod-fueled f (n - d) d))
 
+ 

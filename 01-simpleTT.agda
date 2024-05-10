@@ -48,7 +48,7 @@ if off then a₀ else a₁ = a₁
 
 -----------------------------------------------------
 
-variable P : Type lzero 
+variable P : Type lzero
 
 ad-veritatem : P → 𝟙
 ad-veritatem = λ p → star
@@ -67,3 +67,27 @@ data empty : Type lzero where
 
 iter-𝟘 : 𝟘 → A
 iter-𝟘 ()
+
+
+infix 2 _×_
+record _×_ (A B : Type ℓ) : Type ℓ where
+  constructor _,_
+  field 
+    fst : A
+    snd : B
+open _×_
+
+
+
+infix 2 _***_ _&&&_
+
+_&&&_ : ∀{A B Z : Type ℓ} → (Z → A) → (Z → B) → (Z → A × B)
+(f &&& g) z = f z , g z
+
+_***_ : ∀{A B Y Z : Type ℓ} → (Z → A) → (Y → B) → Z × Y → A × B
+(f *** g) (z , y) = f z , g y 
+
+-- infix 3 _∘_
+
+-- _∘_ : ∀{A B C : Type ℓ} → (B → C) → (A → B) → (A → C)
+-- g ∘ f = λ a → g (f a) 
