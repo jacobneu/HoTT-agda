@@ -69,6 +69,8 @@ example (Three , ♦) = Blue
 example (Two , ♦) = Green
 
 f : 𝟚 → Rank
-f b = if b then Queen else King
+f on = King
+f off = Queen
 g : 𝟚 → Suit
-g b = if b then ♣ else ♠
+g on = ♦
+g off = ♣

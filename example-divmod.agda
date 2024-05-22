@@ -15,20 +15,23 @@ infix 4 _/%_ _/%'_
 {-# TERMINATING #-}
 _/%_ : ℕ → ℕ → ℕ × ℕ
 n /% d = 
-  if n <₂ d
-  then 0 , n
-  else ((suc *** id) (n - d /% d))
+  if n <₂ d 
+  then 0 , n 
+  else ( (suc *** id) ((n - d) /% d))
 
 _/%'_ : ℕ → ℕ → ℕ × ℕ
-n /%' d = divmod-fueled n n d
+n /%' d = division-fueled n n d
   where
     incFst : ℕ × ℕ → ℕ × ℕ
-    incFst (q , r) = (q + 1) , r 
-    divmod-fueled : ℕ → ℕ → ℕ → ℕ × ℕ
-    divmod-fueled zero n d = 0 , n -- won't happen for d≠0
-    divmod-fueled (suc f) n d = 
+    incFst (q , r) = (q + 1) , r
+    division-fueled : ℕ → ℕ → ℕ → ℕ × ℕ
+    division-fueled zero n d = 0 , n
+    division-fueled (suc f) n d = 
       if n <₂ d 
       then 0 , n 
-      else (incFst (divmod-fueled f (n - d) d))
+      else (incFst ( division-fueled f (n - d) d ))
+
+
+
 
  
