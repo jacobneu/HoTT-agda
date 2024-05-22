@@ -85,4 +85,15 @@ infix 2 _***_
 _***_ : ∀{A B Y Z : Type ℓ} → (Z → A) → (Y → B) → (Z × Y → A × B)
 (f *** g) (z , y) = (f z) , (g y)
 
+infix 2 _⊎_
+data _⊎_ (A B : Type ℓ) : Type ℓ where
+  inl : A → A ⊎ B
+  inr : B → A ⊎ B
+open _⊎_
 
+either : ∀{A B Z : Type ℓ} → (A → Z) → (B → Z) → (A ⊎ B → Z)
+either f g (inl a) = f a
+either f g (inr b) = g b
+
+¬ : Type ℓ → Type ℓ
+¬ A = A → 𝟘
