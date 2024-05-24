@@ -53,8 +53,8 @@ variable P : Type lzero
 ad-veritatem : P → 𝟙
 ad-veritatem = λ p → star
 
-id : P → P 
-id = λ p → p
+id : A → A 
+id = λ a → a
 
 -----------------------------------------------------
 
@@ -85,15 +85,44 @@ infix 2 _***_
 _***_ : ∀{A B Y Z : Type ℓ} → (Z → A) → (Y → B) → (Z × Y → A × B)
 (f *** g) (z , y) = (f z) , (g y)
 
-infix 2 _⊎_
+-----------------------------------------------------
+infix 1 _⊎_
 data _⊎_ (A B : Type ℓ) : Type ℓ where
   inl : A → A ⊎ B
   inr : B → A ⊎ B
 open _⊎_
 
-either : ∀{A B Z : Type ℓ} → (A → Z) → (B → Z) → (A ⊎ B → Z)
-either f g (inl a) = f a
-either f g (inr b) = g b
 
-¬ : Type ℓ → Type ℓ
+infix 0 case_of_
+case_of_ : ∀{A B : Type ℓ} → A → (A → B) → B
+case x of f = f x
+
+either : ∀{A B Z : Type ℓ} → (A → Z) → (B → Z) → (A ⊎ B → Z)
+either f g h = case h of λ
+  { (inl a) → f a
+  ; (inr b) → g b
+  }
+
+infix 3 ¬_
+¬_ : Type ℓ → Type ℓ
 ¬ A = A → 𝟘
+
+infix 2 _∧_
+infix 1 _∨_
+_∨_ = _⊎_
+_∧_ = _×_
+
+infix 2 _↔_
+_↔_ : Type ℓ → Type ℓ → Type ℓ
+A ↔ B = (A → B) ∧ (B → A)
+
+-----------------------------------------------------
+
+curry : ∀{A B C : Type ℓ} → (A × B → C) → A → B → C
+curry f = λ a b → f (a , b)
+
+uncurry : ∀{A B C : Type ℓ} → (A → B → C) → A × B → C
+uncurry g (a , b) = g a b
+
+_∘_ : ∀{A B C : Type ℓ} → (B → C) → (A → B) → A → C
+g ∘ f = λ a → g(f a)
