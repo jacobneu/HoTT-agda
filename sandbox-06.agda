@@ -11,24 +11,31 @@ variable Q R : Type lzero
 example0 : (P → Q) → ¬ Q → ¬ P
 example0 p→q = λ nq p → nq (p→q p)
 
-example1 : ¬ ( P ∨ Q ) → ¬ P ∧ ¬ Q
-example1 ¬P∨Q = (λ p → ¬P∨Q (inl p)) , λ q → ¬P∨Q (inr q)
+example1 : ¬(P × ¬ P)
+example1 (p , np) = np p
 
-example2 : ¬(P ∧ ¬ P)
-example2 (p , np) = np p
+example2 : ¬ P → (P ↔ 𝟘)
+example2 np = np , iter-𝟘
 
-example3 : ¬(P ↔ ¬ P)
-example3 {P} (npp , pnp) = npp p p where
+example3 : 𝟚 ↔ 𝟙
+example3 = (λ _ → star) , iter-𝟙 on
+
+example4 : ¬(P ↔ ¬ P)
+example4 {P} (npp , pnp) = npp p p where
     p : P
     p = pnp λ p₀ → npp p₀ p₀
 
--- example4 : (¬ Q → ¬ P) → P → Q
--- example4 {Q} {P} h = λ x → helper λ nq → h nq x where 
+example5 : ¬ ( P ⊎ Q ) → ¬ P × ¬ Q
+example5 ¬P+Q = (λ p → ¬P+Q (inl p)) , λ q → ¬P+Q (inr q)
+
+
+-- example6 : (¬ Q → ¬ P) → P → Q
+-- example6 {Q} {P} h = λ x → helper λ nq → h nq x where 
 --     helper : ¬ ¬ Q → Q
 --     helper = λ nnq → ?
 
--- example5 : ¬ (P ∧ Q) → ¬ P ∨ ¬ Q
--- example5 {P} {Q} = λ ¬p∧q → case helper of λ
+-- example7 : ¬ (P × Q) → ¬ P ⊎ ¬ Q
+-- example7 {P} {Q} = λ ¬p∧q → case helper of λ
 --     { (inl p) → inr λ q → ¬p∧q (p , q)
 --     ; (inr np) → inl np
 --     } where
@@ -36,12 +43,12 @@ example3 {P} (npp , pnp) = npp p p where
 --     helper = ?
 
 LEM : Type ℓ → Type ℓ
-LEM P = P ∨ ¬ P
+LEM P = P ⊎ ¬ P
 
 notnotLEM :  ¬ ¬ LEM P
 notnotLEM {P} h = (snd absurdity) (fst absurdity) where 
-    absurdity : ¬ P ∧ ¬ ¬ P
-    absurdity = example1 h  
+    absurdity : ¬ P × ¬ ¬ P
+    absurdity = example5 h  
 
 LEM-to-DNE : LEM P → ¬ ¬ P → P
 LEM-to-DNE lem = λ nnp → case lem of λ
@@ -49,14 +56,14 @@ LEM-to-DNE lem = λ nnp → case lem of λ
     ; (inr np) → iter-𝟘 (nnp np)
     }
 
-example4 : LEM Q → (¬ Q → ¬ P) → P → Q
-example4 lem = λ nq-to-np p → case lem of λ
+example6 : LEM Q → (¬ Q → ¬ P) → P → Q
+example6 lem = λ nq-to-np p → case lem of λ
     { (inl q) → q
     ; (inr nq) → iter-𝟘 (nq-to-np nq p)
     }
 
-example5 : LEM P → ¬ (P ∧ Q) → ¬ P ∨ ¬ Q
-example5 lem np∧q = case lem of λ
+example7 : LEM P → ¬ (P × Q) → ¬ P ⊎ ¬ Q
+example7 lem np∧q = case lem of λ
     { (inl p) → inr λ q → np∧q ( p , q )
     ; (inr np) → inl np
     }
